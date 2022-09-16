@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/mall-common/mall-common.iml" filepath="$PROJECT_DIR$/mall-common/mall-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-cart/mall-consumer-cart.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-cart/mall-consumer-cart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-feign/mall-consumer-feign.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-feign/mall-consumer-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-goods/mall-consumer-goods.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-goods/mall-consumer-goods.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-login/mall-consumer-login.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-login/mall-consumer-login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-order/mall-consumer-order.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-order/mall-consumer-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-pay/mall-consumer-pay.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-pay/mall-consumer-pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-consumer/mall-consumer-service/mall-consumer-service.iml" filepath="$PROJECT_DIR$/mall-consumer/mall-consumer-service/mall-consumer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-eureka/mall-eureka.iml" filepath="$PROJECT_DIR$/mall-eureka/mall-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-gateway/mall-gateway.iml" filepath="$PROJECT_DIR$/mall-gateway/mall-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller-feign/mall-seller-feign.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller-feign/mall-seller-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller-goods/mall-seller-goods.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller-goods/mall-seller-goods.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller-login/mall-seller-login.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller-login/mall-seller-login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller-order/mall-seller-order.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller-order/mall-seller-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-seller/mall-seller-service/mall-seller-service.iml" filepath="$PROJECT_DIR$/mall-seller/mall-seller-service/mall-seller-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springcloud-mall.iml" filepath="$PROJECT_DIR$/springcloud-mall.iml" />
+    </modules>
+  </component>
+</project>

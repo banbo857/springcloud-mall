@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/mall-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-feign/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-goods/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-login/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-login/src/main/resources/application.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-pay/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-consumer/mall-consumer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-eureka/src/main/resources/application.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mall-gateway/src/main/java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

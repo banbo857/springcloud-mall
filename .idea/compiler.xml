@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mall-consumer-goods" />
+        <module name="mall-seller-service" />
+        <module name="mall-seller-order" />
+        <module name="mall-seller-feign" />
+        <module name="mall-seller-login" />
+        <module name="mall-seller-goods" />
+        <module name="mall-consumer-cart" />
+        <module name="mall-consumer" />
+        <module name="mall-seller" />
+        <module name="mall-consumer-login" />
+        <module name="mall-consumer-feign" />
+        <module name="mall-consumer-pay" />
+        <module name="mall-consumer-order" />
+        <module name="mall-eureka" />
+        <module name="mall-consumer-service" />
+        <module name="mall-gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mall-common" target="8" />
+      <module name="mall-consumer" target="8" />
+      <module name="mall-consumer-cart" target="8" />
+      <module name="mall-consumer-feign" target="8" />
+      <module name="mall-consumer-feign2" target="8" />
+      <module name="mall-consumer-goods" target="8" />
+      <module name="mall-consumer-login" target="8" />
+      <module name="mall-consumer-order" target="8" />
+      <module name="mall-consumer-order2" target="8" />
+      <module name="mall-consumer-pay" target="8" />
+      <module name="mall-consumer-service" target="8" />
+      <module name="mall-eureka" target="8" />
+      <module name="mall-gateway" target="8" />
+      <module name="mall-login-consumer" target="8" />
+      <module name="mall-login-provider" target="8" />
+      <module name="mall-seller" target="8" />
+      <module name="mall-seller-feign" target="8" />
+      <module name="mall-seller-goods" target="8" />
+      <module name="mall-seller-login" target="8" />
+      <module name="mall-seller-order" target="8" />
+      <module name="mall-seller-service" target="8" />
+      <module name="springcloud-mall" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mall-common" options="-parameters" />
+      <module name="mall-consumer" options="" />
+      <module name="mall-consumer-cart" options="" />
+      <module name="mall-consumer-feign" options="" />
+      <module name="mall-consumer-feign2" options="" />
+      <module name="mall-consumer-goods" options="" />
+      <module name="mall-consumer-login" options="" />
+      <module name="mall-consumer-order" options="" />
+      <module name="mall-consumer-order2" options="" />
+      <module name="mall-consumer-pay" options="" />
+      <module name="mall-consumer-service" options="" />
+      <module name="mall-eureka" options="" />
+      <module name="mall-gateway" options="" />
+      <module name="mall-login-consumer" options="" />
+      <module name="mall-login-provider" options="" />
+      <module name="mall-seller" options="" />
+      <module name="springcloud-mall" options="-parameters" />
+    </option>
+  </component>
+</project>

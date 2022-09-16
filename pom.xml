@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wates</groupId>
+    <artifactId>springcloud-mall</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>springcloud-mall</name>
+    <description>基于springCloud的在线商城</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <junit.version>4.13.1</junit.version>
+        <log4j.version>1.2.17</log4j.version>
+        <lombok.version>1.18.12</lombok.version>
+        <mysql.version>8.0.25</mysql.version>
+        <druid.version>1.2.6</druid.version>
+        <mybatis.spring.boot.version>2.1.4</mybatis.spring.boot.version>
+    </properties>
+
+    <modules>
+        <module>mall-common</module>
+        <module>mall-eureka</module>
+        <module>mall-gateway</module>
+        <module>mall-consumer</module>
+        <module>mall-consumer/mall-consumer-login</module>
+        <module>mall-consumer/mall-consumer-feign</module>
+        <module>mall-consumer/mall-consumer-cart</module>
+        <module>mall-consumer/mall-consumer-goods</module>
+        <module>mall-consumer/mall-consumer-order</module>
+        <module>mall-consumer/mall-consumer-pay</module>
+        <module>mall-consumer/mall-consumer-service</module>
+        <module>mall-seller</module>
+        <module>mall-seller/mall-seller-feign</module>
+        <module>mall-seller/mall-seller-login</module>
+        <module>mall-seller/mall-seller-goods</module>
+        <module>mall-seller/mall-seller-order</module>
+        <module>mall-seller/mall-seller-service</module>
+    </modules>
+
+
+    <!-- 子模块继承之后，提供作用：锁定版本+子module不用写groupId和version -->
+    <dependencyManagement>
+        <dependencies>
+            <!--json-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.70</version>
+            </dependency>
+            <!--分布式FastDFS-->
+            <dependency>
+                <groupId>com.github.tobato</groupId>
+                <artifactId>fastdfs-client</artifactId>
+                <version>1.26.1-RELEASE</version>
+            </dependency>
+<!--            redis-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>2.4.2</version>
+            </dependency>
+            <!--gateway-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--eureka client-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--eureka server-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--ribbon-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--hystrix-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--Feign的依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+            <!--dashboard依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+                <version>2.2.9.RELEASE</version>
+            </dependency>
+<!--            &lt;!&ndash;actuator完善监控信息&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--                <version>2.3.12.RELEASE</version>-->
+<!--            </dependency>-->
+            <!-- spring boot 2.3.7 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.3.7.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!--  druid 因jdk11有兼容问题，会报错，所以去除-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>com.sun</groupId>-->
+<!--                        <artifactId>tools</artifactId>-->
+<!--                    </exclusion>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>com.sun</groupId>-->
+<!--                        <artifactId>jconsole</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+            </dependency>
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.version}</version>
+            </dependency>
+            <!-- junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <!-- log4j -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.12.RELEASE</version>
+                <configuration>
+                    <fork>true</fork>
+                    <additionalProperties>true</additionalProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

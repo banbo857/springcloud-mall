@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.dao.OrderDao">
+
+    <resultMap id="GoodsOrder" type="com.mall.pojo.GoodsOrder">
+        <id column="order_id" property="orderId"/>
+        <result column="number" property="number"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="deliverTime" property="deliverTime"/>
+        <result column="deal_time" property="dealTime"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="logistics_id" property="logisticsId"/>
+        <result column="address_id" property="addressId"/>
+        <result column="consumer_id" property="consumerId"/>
+        <result column="price" property="price"/>
+        <collection property="itemList" ofType="com.mall.pojo.OrderItem">
+            <id column="item_id" property="itemId"/>
+            <result column="order_id" property="orderId"/>
+            <result column="goods_id" property="goodsId"/>
+            <result column="num" property="num"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="BaseGoodsMap" type="com.mall.pojo.Goods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="title" property="title"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="introduce" property="introduce"/>
+        <result column="images" property="images"/>
+        <result column="status" property="status"/>
+        <result column="typeId" property="typeId"/>
+        <result column="sellerId" property="sellerId"/>
+    </resultMap>
+
+    <insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="com.mall.pojo.GoodsOrder">
+        INSERT INTO goods_order (number, status, create_time,seller_id, address_id, consumer_id, price)
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="goodsOrder.number != null">
+                #{goodsOrder.number},
+            </if>
+            <if test="goodsOrder.status != null">
+                #{goodsOrder.status},
+            </if>
+            <if test="goodsOrder.createTime != null">
+                #{goodsOrder.createTime},
+            </if>
+            <if test="goodsOrder.sellerId != null">
+                #{goodsOrder.sellerId},
+            </if>
+            <if test="goodsOrder.addressId != null">
+                #{goodsOrder.addressId},
+            </if>
+            <if test="goodsOrder.consumerId != null">
+                #{goodsOrder.consumerId},
+            </if>
+            <if test="goodsOrder.price != null">
+                #{goodsOrder.price},
+            </if>
+        </trim>
+    </insert>
+
+
+    <insert id="evaluate">
+        INSERT INTO evaluate (consumer_id, goods_id, content, create_time, evaluate_level)
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="evaluate.consumerId != null">
+                #{evaluate.consumerId},
+            </if>
+            <if test="evaluate.goodsId != null">
+                #{evaluate.goodsId},
+            </if>
+            <if test="evaluate.content != null">
+                #{evaluate.content},
+            </if>
+            <if test="evaluate.createTime != null">
+                #{evaluate.createTime},
+            </if>
+            <if test="evaluate.evaluateLevel != null">
+                #{evaluate.evaluateLevel},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="addItem" parameterType="list">
+        INSERT INTO order_item (order_id, goods_id, num)
+        VALUES
+        <foreach collection="orderItems" item="item" separator=",">
+            (#{item.orderId}, #{item.goodsId}, #{item.num})
+        </foreach>
+    </insert>
+
+
+    <update id="updateStatusByOrderId">
+        update goods_order
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        <where>
+            <if test="orderId != null">
+                order_id = #{orderId}
+            </if>
+        </where>
+    </update>
+
+    <update id="updatePayTimeByOrderId">
+        update goods_order
+        <set>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+        </set>
+        <where>
+            <if test="orderId != null">
+                order_id = #{orderId}
+            </if>
+        </where>
+    </update>
+
+    <select id="getAllOrder" resultMap="GoodsOrder">
+        select * from goods_order
+        <where>
+            <if test="consumerId != null">
+                consumer_id = #{consumerId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getGoodsByConsumerId" resultMap="BaseGoodsMap">
+        select * from goods
+        <where>
+            goods_id in (select goods_id from goods_order
+                    <where>
+                        <if test="consumerId != null">
+                            consumer_id = #{consumerId})
+                        </if>
+                    </where>
+        </where>
+    </select>
+
+
+
+</mapper>

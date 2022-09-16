@@ -1,0 +1,49 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: mall-gateway #微服务名称
+
+  cloud:
+    gateway:
+      enabled: true
+      routes:
+        - id: mall-consumer-feign #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: http://localhost:9001   #匹配后提供服务的路由地址
+          predicates: #路由断言，判断请求是否符合规则
+            - Path=/consumer/goods/**,/consumer/order/**,/consumer/pay/**,/consumer/cart/** #路径断言，判断路径是否是以/consumer/login开头，如果是则符合
+
+        - id: mall-seller-feign
+          uri: http://localhost:9002
+          predicates:
+            - Path=/seller/goods/**,/seller/order/**
+
+        - id: mall-seller-login
+          uri: http://localhost:8501
+          predicates:
+            - Path=/seller/login/**
+
+        - id: mall-consumer-login
+          uri: http://localhost:8001
+          predicates:
+            - Path=/consumer/login/**
+
+
+      globalcors:
+        cors-configurations: #跨域配置
+          '[/**]':
+            allowedOrigins: '*' #允许跨域的域名，可以用*表示允许任何域名使用
+            allowedMethods: '*' #允许任何方法（post、get等）
+            allowedHeaders: '*' #允许任何请求头
+            allowCredentials: true #允许携带cookie
+            maxAge: 18000 #预检请求的有效期，单位为秒
+      default-filters:
+        - DedupeResponseHeader=Vary Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+
+
+# eureka 注册中心配置
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/

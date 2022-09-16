@@ -1,0 +1,36 @@
+server:
+  port: 8502
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+spring:
+  application:
+    name: mall-seller-goods
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_mall?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+    mapper-locations: classpath:mapper/*.xml # mapper文件路径
+  #debug
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      map-underscore-to-camel-case: true
+
+fdfs:
+  connect-timeout: 60
+  so-timeout: 60
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+      - 192.168.117.129:22122
+

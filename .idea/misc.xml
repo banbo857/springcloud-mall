@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-login/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-api/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-feign/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-goods/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-cart/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-pay/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-order/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-consumer/mall-consumer-service/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/mall-seller-service/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/mall-seller-login/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/mall-seller-goods/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/mall-seller-order/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-seller/mall-seller-feign/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

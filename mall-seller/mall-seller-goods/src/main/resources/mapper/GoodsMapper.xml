@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.dao.SellerGoodsDao">
+
+    <resultMap id="Goods" type="com.mall.pojo.Goods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="title" property="title"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="introduce" property="introduce"/>
+        <result column="images" property="images"/>
+        <result column="status" property="status"/>
+        <result column="type_id" property="typeId"/>
+        <result column="seller_id" property="sellerId"/>
+
+        <collection property="evaluateList" ofType="com.mall.pojo.Evaluate">
+            <id column="evaluate_id" property="evaluateId"/>
+            <result column="content" property="content"/>
+            <result column="create_time" property="createTime"/>
+            <result column="goods_id" property="goodsId"/>
+            <result column="consumer_id" property="consumerId"/>
+            <result column="reply_id" property="replyId"/>
+            <result column="evaluate_level" property="evaluateLevel"/>
+        </collection>
+    </resultMap>
+
+    <insert id="addGoods">
+        insert into goods(title,price,stock,introduce,images,status,type_id,seller_id)
+        values(#{goods.title}, #{goods.price}, #{goods.stock}, #{goods.introduce}, #{goods.images}, #{goods.status}, #{goods.typeId}, #{goods.sellerId})
+    </insert>
+
+    <update id="updateGoods">
+        update goods set title=#{goods.title}, price=#{goods.price}, stock=#{goods.stock},
+        introduce=#{goods.introduce}, images=#{goods.images},
+        status=#{goods.status}, type_id=#{goods.typeId}, seller_id=#{goods.sellerId}
+        where goods_id=#{goods.goodsId}
+    </update>
+
+    <update id="upStatus">
+        update goods set status=#{status} where goods_id=#{goodsId}
+    </update>
+
+    <delete id="deleteGoods">
+        delete from goods where goods_id=#{goodsId}
+    </delete>
+
+    <select id="goodsList" resultMap="Goods">
+        select g.goods_id, g.title, g.price, g.stock, g.introduce, g.images, g.status, g.type_id, g.seller_id, e.evaluate_id, e.content, e.create_time, e.goods_id, e.consumer_id, e.reply_id, e.evaluate_level
+        from goods g
+             left join evaluate e on g.goods_id = e.goods_id and g.seller_id = #{sellerId}
+    </select>
+
+    <select id="search" resultMap="Goods">
+        select g.goods_id, g.title, g.price, g.stock, g.introduce, g.images, g.status, g.type_id, g.seller_id, e.evaluate_id, e.content, e.create_time, e.goods_id, e.consumer_id, e.reply_id, e.evaluate_level
+        from goods g
+             left join evaluate e on g.goods_id = e.goods_id
+        where g.title like concat('%', #{title}, '%') and g.seller_id = #{sellerId}
+
+    </select>
+
+    <select id="getGoodsById" resultMap="Goods">
+        select g.goods_id, g.title, g.price, g.stock, g.introduce, g.images, g.status, g.type_id, g.seller_id, e.evaluate_id, e.content, e.create_time, e.goods_id, e.consumer_id, e.reply_id, e.evaluate_level
+        from goods g
+                 left join evaluate e on g.goods_id = e.goods_id and g.goods_id = #{goodsId}
+    </select>
+</mapper>

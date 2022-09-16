@@ -1,0 +1,15 @@
+# 项目排除路径
+/mall-common/target/
+/mall-consumer/mall-consumer-cart/target/
+/mall-consumer/mall-consumer-feign/target/
+/mall-consumer/mall-consumer-goods/target/
+/mall-consumer/mall-consumer-login/target/
+/mall-consumer/mall-consumer-order/target/
+/mall-consumer/mall-consumer-service/target/
+/mall-eureka/target/
+/mall-gateway/target/
+/mall-seller/mall-seller-feign/target/
+/mall-seller/mall-seller-goods/target/
+/mall-seller/mall-seller-login/target/
+/mall-seller/mall-seller-order/target/
+/mall-seller/mall-seller-service/target/

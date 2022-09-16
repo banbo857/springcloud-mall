@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.github.x-stream:mxparser:1.2.1">
+    <CLASSES>
+      <root url="jar://D:/JAVA/apache-maven-3.6.3-bin/repository/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/JAVA/apache-maven-3.6.3-bin/repository/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/JAVA/apache-maven-3.6.3-bin/repository/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
