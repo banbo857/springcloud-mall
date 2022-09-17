@@ -12,11 +12,13 @@
 
 ### 用户端
 
-![image-20220917204305958](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220917204305958.png)
+![](images/2.png)
 
-### 商家端![image-20220917204704083](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220917204704083.png)
+### 商家端
+
+![](images/3.png)
 
 ### 数据库设计
 
-![image-20220917204804355](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220917204804355.png)
+![](images/4.png)
 
