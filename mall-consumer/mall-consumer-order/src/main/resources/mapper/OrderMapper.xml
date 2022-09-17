@@ -9,7 +9,7 @@
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
         <result column="pay_time" property="payTime"/>
-        <result column="deliverTime" property="deliverTime"/>
+        <result column="deliver_time" property="deliverTime"/>
         <result column="deal_time" property="dealTime"/>
         <result column="seller_id" property="sellerId"/>
         <result column="logistics_id" property="logisticsId"/>
@@ -35,6 +35,28 @@
         <result column="typeId" property="typeId"/>
         <result column="sellerId" property="sellerId"/>
     </resultMap>
+
+
+    <select id="getAllOrder" resultMap="GoodsOrder">
+        select g.order_id,
+               g.number,
+               g.status,
+               g.create_time,
+               g.pay_time,
+               g.deliver_time,
+               g.deal_time,
+               g.seller_id,
+               g.logistics_id,
+               g.address_id,
+               g.consumer_id,
+               g.price,
+               i.item_id,
+               i.order_id,
+               i.goods_id,
+               i.num
+        from goods_order g
+                 left join order_item i on g.order_id = i.order_id
+    </select>
 
     <insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="com.mall.pojo.GoodsOrder">
         INSERT INTO goods_order (number, status, create_time,seller_id, address_id, consumer_id, price)
@@ -122,23 +144,29 @@
         </where>
     </update>
 
-    <select id="getAllOrder" resultMap="GoodsOrder">
-        select * from goods_order
+    <update id="updateDeliverTimeByOrderId">
+        update goods_order
+        <set>
+            <if test="deliverTime != null">
+                deliver_time = #{deliverTime},
+            </if>
+        </set>
         <where>
-            <if test="consumerId != null">
-                consumer_id = #{consumerId}
+            <if test="orderId != null">
+                order_id = #{orderId}
             </if>
         </where>
-    </select>
+    </update>
+
 
     <select id="getGoodsByConsumerId" resultMap="BaseGoodsMap">
         select * from goods
         <where>
             goods_id in (select goods_id from goods_order
-                    <where>
-                        <if test="consumerId != null">
-                            consumer_id = #{consumerId})
-                        </if>
+            <where>
+                <if test="consumerId != null">
+                    consumer_id = #{consumerId})
+                </if>
                     </where>
         </where>
     </select>

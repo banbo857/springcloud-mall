@@ -15,17 +15,19 @@ public class GoodsServiceFallBackFactory implements FallbackFactory<FeignGoodsSe
         return new FeignGoodsService() {
             @Override
             public Result goodsList() {
-                return Result.error("服务器异常，请稍后再试");
+                return Result.error("feign调用->商品模块异常");
+
             }
 
             @Override
             public Result search(String title) {
-                return Result.error("服务器异常，请稍后再试");
+                return Result.error("feign调用->商品模块异常");
+
             }
 
             @Override
             public Result getGoodsById(String goodsId) {
-                return Result.error("服务器异常，请稍后再试");
+                return Result.error("feign调用->商品模块异常");
             }
         };
     }

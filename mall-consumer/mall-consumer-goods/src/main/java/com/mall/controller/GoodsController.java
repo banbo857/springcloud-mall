@@ -19,7 +19,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     public Result defaultFallback() {
-        return Result.error("请求失败，请稍后再试--hystrix");
+        return Result.error("hystrix->商品服务异常");
     }
 
     /**

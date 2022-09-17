@@ -27,9 +27,12 @@ public interface OrderDao {
 
     int updatePayTimeByOrderId(@Param("orderId") String orderId, @Param("payTime") String payTime);
 
+    int updateDeliverTimeByOrderId(@Param("orderId") String orderId, @Param("deliverTime") String deliverTime);
+
     int createOrder(@Param("goodsOrder") GoodsOrder goodsOrder);
 
     int evaluate(@Param("evaluate") Evaluate evaluate);
 
     int addItem(@Param("orderItems") List<OrderItem> orderItems);
+
 }

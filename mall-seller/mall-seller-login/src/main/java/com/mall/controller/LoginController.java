@@ -6,6 +6,7 @@ import com.mall.utils.RedisUtil;
 import com.mall.utils.Result;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,10 @@ public class LoginController {
     private RedisUtil redisUtil;
 
     private final static String SESSION_KEY = "seller:session:";
+
+    public Result defaultFallback() {
+        return Result.error("hystrix->登录服务繁忙,请稍后再试");
+    }
 
 
     /**
@@ -57,6 +62,7 @@ public class LoginController {
 
     @RequestMapping("/logout")
     @ResponseBody
+    @HystrixCommand
     public Result logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("seller");
@@ -68,6 +74,7 @@ public class LoginController {
      */
     @PostMapping("/register")
     @ResponseBody
+    @HystrixCommand
     public Result register(@RequestParam("account") String account,
                            @RequestParam("password") String password,
                            @RequestParam("storeName") String storeName,
@@ -77,10 +84,6 @@ public class LoginController {
             return  Result.error("账号已存在");
         }
         return res > 0 ? Result.build(): Result.error("注册失败");
-    }
-
-    public Result defaultFallback() {
-        return Result.error("hystrix->登录服务繁忙,请稍后再试");
     }
 
 

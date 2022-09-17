@@ -5,10 +5,12 @@ import com.mall.pojo.Goods;
 import com.mall.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -16,7 +18,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> goodsList() {
-
         return goodsDao.goodsList();
     }
 

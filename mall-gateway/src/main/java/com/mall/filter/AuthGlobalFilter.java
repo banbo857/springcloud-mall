@@ -26,7 +26,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        //获得请求和响应对象
+//        获得请求和响应对象
         ServerHttpRequest request = exchange.getRequest().mutate().header("From", "gateway").build();
         ServerHttpResponse response = exchange.getResponse();
 
@@ -48,7 +48,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         for(String cookie : request.getCookies().keySet()){
             if(cookie.equals("JSESSIONID")){
                 sessionId = request.getCookies().getFirst(cookie).getValue();
-                log.info("sessionId==>" + sessionId);
+//                log.info("sessionId==>" + sessionId);
                 if (StringUtils.isEmpty(sessionId)) {
                     log.info("null session");
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);

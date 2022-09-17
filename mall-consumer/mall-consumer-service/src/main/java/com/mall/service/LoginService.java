@@ -1,10 +1,11 @@
 package com.mall.service;
 
 
+import com.mall.pojo.Consumer;
 
 public interface LoginService {
 
-    Integer login(String account, String password);
+    Consumer login(String account, String password);
 
     Integer register(String account, String password, String nickName, String phone);
 

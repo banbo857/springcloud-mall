@@ -1,6 +1,9 @@
 package com.mall.controller;
 
+import com.mall.pojo.Consumer;
+import com.mall.pojo.Seller;
 import com.mall.service.LoginService;
+import com.mall.utils.RedisUtil;
 import com.mall.utils.Result;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -10,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @RestController
 @DefaultProperties(defaultFallback = "defaultFallback")
 @Slf4j
@@ -18,33 +26,43 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private RedisUtil redisUtil;
 
+    private final static String SESSION_KEY = "consumer:session:";
 
     /**
      * 登录
      */
-    @HystrixCommand(commandProperties = {
-            // 10s 内请求数大于 10 个就启动熔断器，当请求符合熔断条件触发 fallbackMethod 默认 20 个
-            @HystrixProperty(name = HystrixPropertiesManager.CIRCUIT_BREAKER_REQUEST_VOLUME_THRESHOLD,
-                    value = "2"),
-            // 请求错误率大于 50% 就启动熔断器，然后 for 循环发起重试请求，当请求符合熔断条件触发 fallbackMethod
-            @HystrixProperty(name = HystrixPropertiesManager.CIRCUIT_BREAKER_ERROR_THRESHOLD_PERCENTAGE,
-                    value = "50"),
-            // 熔断多少秒后去重试请求，默认 5s
-            @HystrixProperty(name = HystrixPropertiesManager.CIRCUIT_BREAKER_SLEEP_WINDOW_IN_MILLISECONDS,
-                    value = "5000"),
-    })
+    @HystrixCommand
     @PostMapping("/login")
+    @ResponseBody
     public Result login(@RequestParam("account") String account,
-                        @RequestParam("password") String password) {
-        log.info("consumer: " + account + " login " + " password: " + password);
-        return loginService.login(account, password) > 0 ? Result.build(): Result.error("登录失败");
+                        @RequestParam("password") String password,
+                        HttpServletRequest request,
+                        HttpServletResponse response) {
+        Consumer consumer = loginService.login(account, password);
+        if (consumer == null) {
+            return Result.error("账号或密码错误");
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("consumer", consumer);
+        session.setMaxInactiveInterval(60 * 60 * 24 * 7);//设置session过期时间为7天
+        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+        cookie.setPath("/");
+        cookie.setDomain("127.0.0.1");
+        cookie.setMaxAge(60 * 60 * 24 * 7);//设置cookie过期时间为一周
+        response.addCookie(cookie);
+        redisUtil.set(SESSION_KEY + session.getId(), consumer, 60 * 60 * 24 * 7);
+        return Result.build();
     }
 
     /**
      * 注册
      */
     @PostMapping("/register")
+    @HystrixCommand
+    @ResponseBody
     public Result register(@RequestParam("account") String account,
                            @RequestParam("password") String password,
                             @RequestParam("nickName") String nickName,
@@ -57,7 +75,7 @@ public class LoginController {
     }
 
     public Result defaultFallback() {
-        return Result.error("服务器繁忙，请稍后再试");
+        return Result.error("hystrix->登录服务异常");
     }
 
 

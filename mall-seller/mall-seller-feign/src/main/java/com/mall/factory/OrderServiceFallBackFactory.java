@@ -1,10 +1,13 @@
 package com.mall.factory;
 
-import com.mall.service.SellerFeignLoginService;
 import com.mall.service.SellerFeignOrderService;
 import com.mall.utils.Result;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+@Component
+@Slf4j
 public class OrderServiceFallBackFactory implements FallbackFactory<SellerFeignOrderService> {
     @Override
     public SellerFeignOrderService create(Throwable throwable) {

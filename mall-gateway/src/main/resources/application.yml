@@ -3,7 +3,10 @@ server:
 spring:
   application:
     name: mall-gateway #微服务名称
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
   cloud:
     gateway:
       enabled: true
@@ -23,10 +26,28 @@ spring:
           predicates:
             - Path=/seller/login/**
 
+
         - id: mall-consumer-login
           uri: http://localhost:8001
           predicates:
             - Path=/consumer/login/**
+
+      #        - id: test
+      #          uri: http://localhost:8501
+      #          predicates:
+      #            - Path=/test
+      #          filters:
+      #            #            - StripPrefix=1 #过滤器，去掉前缀，比如：/seller/login/1，去掉前缀后，请求的路径为/login/1
+      #            - name: RequestRateLimiter #限流过滤器
+      #              args:
+      #                key-resolver: "#{@pathResolver}" #限流的key，这里使用IP地址作为限流的key
+      #                redis-rate-limiter.replenishRate: 10 #令牌桶每秒新增的令牌数
+      #                redis-rate-limiter.burstCapacity: 100 #令牌桶的容量
+      #                redis-rate-limiter.enabled: true #是否启用限流
+      #            - name: Hystrix #熔断过滤器
+      #              args:
+      #                name: fallbackcmd #熔断器的名称
+      #                fallbackUri: forward:/fallback #熔断后的回调地址
 
 
       globalcors:

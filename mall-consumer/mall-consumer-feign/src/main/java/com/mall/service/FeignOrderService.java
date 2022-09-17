@@ -1,6 +1,7 @@
 package com.mall.service;
 
 import com.mall.config.FeignConfig;
+import com.mall.factory.OrderServiceFallBackFactory;
 import com.mall.utils.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
-@FeignClient(value = "mall-consumer-order", configuration = FeignConfig.class)
+@FeignClient(value = "mall-consumer-order", configuration = FeignConfig.class, fallbackFactory = OrderServiceFallBackFactory.class)
 public interface FeignOrderService {
 
 

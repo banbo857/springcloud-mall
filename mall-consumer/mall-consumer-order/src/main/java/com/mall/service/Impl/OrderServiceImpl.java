@@ -2,44 +2,48 @@ package com.mall.service.Impl;
 
 import com.alibaba.fastjson.JSON;
 import com.mall.dao.OrderDao;
-import com.mall.pojo.Evaluate;
-import com.mall.pojo.Goods;
-import com.mall.pojo.GoodsOrder;
-import com.mall.pojo.OrderItem;
+import com.mall.pojo.*;
 import com.mall.service.FeignGoodsService;
 import com.mall.service.OrderService;
 import com.mall.utils.DateUtils;
+import com.mall.utils.RedisUtil;
 import com.mall.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDao orderDao;
     @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
     private FeignGoodsService feignGoodsService;
+
+    private final static String SESSION_KEY = "consumer:session:";
 
     /**
      * 获取全部订单
      */
     @Override
-    public List<GoodsOrder> getAllOrder(Integer consumerId) {
-        return orderDao.getAllOrder(consumerId);
+    public List<GoodsOrder> getAllOrder(String sessionId) {
+        Consumer consumer = (Consumer) redisUtil.get(SESSION_KEY + sessionId);
+        return orderDao.getAllOrder(consumer.getConsumerId());
     }
 
     /**
      * 查找订单
      */
     @Override
-    public List<GoodsOrder> searchOrder(String keyWord) {
-        Integer consumerId = 1;
-
-        List<GoodsOrder> allOrder = orderDao.getAllOrder(consumerId);//获取全部订单
+    public List<GoodsOrder> searchOrder(String keyWord, String sessionId) {
+        Consumer consumer = (Consumer) redisUtil.get(SESSION_KEY + sessionId);
+        List<GoodsOrder> allOrder = orderDao.getAllOrder(consumer.getConsumerId());//获取全部订单
 //        List<Goods> goodsList = orderDao.getGoodsByConsumerId(consumerId);//获取全部订单中的商品
 //        List<GoodsOrder> res = new ArrayList<>();
 //        for (GoodsOrder goodsOrder : allOrder) {
@@ -77,17 +81,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * 更新订单发货时间
+     */
+    @Override
+    public int updateDeliverTimeByOrderId(String orderId) {
+        return orderDao.updateDeliverTimeByOrderId(orderId, DateUtils.fromDateH());
+    }
+
+    /**
      * 创建订单
      */
     @Override
-    public int createOrder(String goodsIds, String goodsNums, String addressId) {
+    public int createOrder(String goodsIds, String goodsNums, String addressId, String sessionId) {
+        Consumer consumer = (Consumer) redisUtil.get(SESSION_KEY + sessionId);
         //UNDO 商家不同拆分订单
         String[] goodsId = goodsIds.split(",");
         String[] goodsNum = goodsNums.split(",");
         List<Goods> goodsList = new ArrayList<>();
         double total = 0;
         for (int i = 0; i < goodsId.length; i++) {
-            Map<String,Object> map = feignGoodsService.getGoodsById(goodsId[i]);
+            Map<String, Object> map = feignGoodsService.getGoodsById(goodsId[i]);
             //fastjson转bean
             Goods goods = JSON.parseObject(JSON.toJSONString(map.get("goods")), Goods.class);
             if (goods == null) {
@@ -108,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
                 .setNumber(calendar.get(Calendar.YEAR) + "" + (calendar.get(Calendar.MONTH) + 1) + ""
                         + calendar.get(Calendar.DAY_OF_MONTH) + 1 + "" + UUID.randomUUID().toString().substring(0, 8))
                 .setAddressId(Integer.valueOf(addressId))
-                .setConsumerId(1)
+                .setConsumerId(consumer.getConsumerId())
                 .setStatus(1)
                 .setSellerId(goodsList.get(0).getSellerId())
                 .setPrice(total);
@@ -128,13 +141,14 @@ public class OrderServiceImpl implements OrderService {
      * 评价
      */
     @Override
-    public int evaluate(String goodsId, String content, String evaluateLevel) {
+    public int evaluate(String goodsId, String content, String evaluateLevel, String sessionId) {
+        Consumer consumer = (Consumer) redisUtil.get(SESSION_KEY + sessionId);
         Evaluate evaluate = new Evaluate();
         evaluate.setGoodsId(Integer.valueOf(goodsId))
                 .setContent(content)
                 .setEvaluateLevel(Integer.valueOf(evaluateLevel))
                 .setCreateTime(DateUtils.fromDateH())
-                .setConsumerId(1);
+                .setConsumerId(consumer.getConsumerId());
         return orderDao.evaluate(evaluate);
     }
 }

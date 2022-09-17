@@ -37,7 +37,6 @@ public class FeignConfig implements RequestInterceptor {
             }
             //添加cookie
             String cookie = request.getHeader("Cookie");
-            System.out.println("cookie==>" + cookie);
             requestTemplate.header("Cookie", cookie);
             requestTemplate.header("From",from);
         }

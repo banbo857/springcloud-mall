@@ -11,12 +11,12 @@ public interface SellerOrderService {
     /**
      * 获取商家全部订单
      */
-    List<GoodsOrder> getAllOrder();
+    List<GoodsOrder> getAllOrder(String sessionId);
 
     /**
      * 查询订单
      */
-    List<GoodsOrder>  searchOrder(String keyWord);
+    List<GoodsOrder> searchOrder(String keyWord, String sessionId);
 
     /**
      * 修改订单状态

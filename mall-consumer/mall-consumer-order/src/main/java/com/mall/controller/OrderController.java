@@ -1,10 +1,9 @@
 package com.mall.controller;
 
-import com.mall.pojo.Goods;
-import com.mall.service.FeignGoodsService;
 import com.mall.service.FeignPayService;
 import com.mall.service.OrderService;
 import com.mall.utils.Result;
+import com.mall.utils.SessUtils;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @DefaultProperties(defaultFallback = "defaultFallback")
@@ -25,12 +26,9 @@ public class OrderController {
     @Autowired
     private FeignPayService feignPayService;
 
-
-
     public Result defaultFallback() {
-        return Result.error("系统繁忙，请稍后再试");
+        return Result.error("hystrix->订单服务异常");
     }
-
 
     /**
      * 获取全部订单
@@ -38,8 +36,9 @@ public class OrderController {
     @RequestMapping("/getAllOrder")
     @ResponseBody
     @HystrixCommand
-    public Result getAllOrder() {
-        return Result.data("orderList", orderService.getAllOrder(1));
+    public Result getAllOrder(HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+        return Result.data("orderList", orderService.getAllOrder(sessionId));
     }
 
     /**
@@ -48,8 +47,10 @@ public class OrderController {
     @RequestMapping("/searchOrder")
     @ResponseBody
     @HystrixCommand
-    public Result searchOrder(@RequestParam("keyWord") String keyWord) {
-        return Result.data("orderList", orderService.searchOrder(keyWord));
+    public Result searchOrder(@RequestParam("keyWord") String keyWord, HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+
+        return Result.data("orderList", orderService.searchOrder(keyWord, sessionId));
     }
 
     /**
@@ -57,18 +58,21 @@ public class OrderController {
      */
     @RequestMapping("/createOrder")
     @ResponseBody
-//    @HystrixCommand
+    @HystrixCommand
     public Result createOrder(@RequestParam("goodsIds") String goodsIds,
                               @RequestParam("goodsNums") String goodsNums,
-                              @RequestParam("addressId") String addressId) {
-        int res = orderService.createOrder(goodsIds, goodsNums, addressId);
+                              @RequestParam("addressId") String addressId,
+                              HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+
+        int res = orderService.createOrder(goodsIds, goodsNums, addressId, sessionId);
         if (res > 0) {
             return Result.build();
-        } else if (res == -1){
+        } else if (res == -1) {
             return Result.error("商品不存在");
-        }else if (res == -2){
+        } else if (res == -2) {
             return Result.error("商品库存不足");
-        }else if (res == -3){
+        } else if (res == -3) {
             return Result.error("商品数量不能为空");
         }
         return Result.error("生成订单失败");
@@ -115,7 +119,9 @@ public class OrderController {
     @HystrixCommand
     public Result confirmReceipt(@RequestParam("orderId") String orderId) {
         if (orderService.updateStatusByOrderId(orderId, 4) > 0) {
-            return Result.build();
+            if (orderService.updateDeliverTimeByOrderId(orderId) > 0) {
+                return Result.build();
+            }
         }
         return Result.error("确认收货失败");
     }
@@ -134,7 +140,6 @@ public class OrderController {
     }
 
 
-
     /**
      * 订单评价
      */
@@ -143,8 +148,10 @@ public class OrderController {
     @HystrixCommand
     public Result evaluate(@RequestParam("goodsId") String goodsId,
                            @RequestParam("content") String content,
-                           @RequestParam("evaluateLevel") String evaluateLevel) {
-        if (orderService.evaluate(goodsId, content, evaluateLevel) > 0) {
+                           @RequestParam("evaluateLevel") String evaluateLevel,
+                           HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+        if (orderService.evaluate(goodsId, content, evaluateLevel, sessionId) > 0) {
             return Result.build();
         }
         return Result.error("评价失败");

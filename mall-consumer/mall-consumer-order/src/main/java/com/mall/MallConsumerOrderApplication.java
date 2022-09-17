@@ -12,6 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @MapperScan("com.mall.dao")
 @EnableFeignClients(basePackages = "com.mall")
 @EnableHystrixDashboard
+
 public class MallConsumerOrderApplication {
 
     public static void main(String[] args) {

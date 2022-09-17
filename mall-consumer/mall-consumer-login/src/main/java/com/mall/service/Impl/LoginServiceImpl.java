@@ -1,18 +1,21 @@
 package com.mall.service.Impl;
 
 import com.mall.dao.LoginDao;
+import com.mall.pojo.Consumer;
 import com.mall.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private LoginDao loginDao;
 
     @Override
-    public Integer login(String account, String password) {
+    public Consumer login(String account, String password) {
         return loginDao.login(account, password);
     }
 

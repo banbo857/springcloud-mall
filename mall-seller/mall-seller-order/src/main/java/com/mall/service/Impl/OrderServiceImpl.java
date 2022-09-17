@@ -1,10 +1,9 @@
 package com.mall.service.Impl;
 
 import com.mall.dao.SellerOrderDao;
-import com.mall.pojo.Goods;
-import com.mall.pojo.GoodsOrder;
-import com.mall.pojo.Logistics;
+import com.mall.pojo.*;
 import com.mall.service.SellerOrderService;
+import com.mall.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +15,18 @@ public class OrderServiceImpl implements SellerOrderService {
 
     @Autowired
     private SellerOrderDao orderDao;
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private final static String SESSION_KEY = "seller:session:";
 
     /**
      * 获取商家全部订单
-     *
      */
     @Override
-    public List<GoodsOrder> getAllOrder() {
-        Integer sellerId = 1;
-        return orderDao.getAllOrder(sellerId);
+    public List<GoodsOrder> getAllOrder(String sessionId) {
+        Seller seller = (Seller) redisUtil.get(SESSION_KEY + sessionId);
+        return orderDao.getAllOrder(seller.getSellerId());
     }
 
     /**
@@ -33,9 +35,9 @@ public class OrderServiceImpl implements SellerOrderService {
      * @param keyWord
      */
     @Override
-    public List<GoodsOrder> searchOrder(String keyWord) {
-        Integer sellerId = 1;
-        List<GoodsOrder> goodsOrders = orderDao.getAllOrder(sellerId);
+    public List<GoodsOrder> searchOrder(String keyWord, String sessionId) {
+        Seller seller = (Seller) redisUtil.get(SESSION_KEY + sessionId);
+        List<GoodsOrder> goodsOrders = orderDao.getAllOrder(seller.getSellerId());
 //        List<GoodsOrder> res = new ArrayList<>();
 //        for (GoodsOrder goodsOrder : goodsOrders) {
 //            if (goodsOrder.getNumber().equals(keyWord)) {

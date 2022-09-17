@@ -12,4 +12,5 @@ public class MallGatewayApplication {
         SpringApplication.run(MallGatewayApplication.class, args);
     }
 
+
 }

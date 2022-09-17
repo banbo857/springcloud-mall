@@ -3,6 +3,7 @@ package com.mall.controller;
 import com.mall.service.SellerOrderService;
 import com.mall.utils.DateUtils;
 import com.mall.utils.Result;
+import com.mall.utils.SessUtils;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @DefaultProperties(defaultFallback = "defaultFallback")
@@ -32,8 +35,9 @@ public class OrderController {
     @RequestMapping("/getAllOrder")
     @ResponseBody
     @HystrixCommand
-    public Result getAllOrder() {
-        return Result.data("orderList", orderService.getAllOrder());
+    public Result getAllOrder(HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+        return Result.data("orderList", orderService.getAllOrder(sessionId));
     }
 
     /**
@@ -42,8 +46,9 @@ public class OrderController {
     @RequestMapping("/searchOrder")
     @ResponseBody
     @HystrixCommand
-    public Result searchOrder(@RequestParam("keyWord") String keyWord) {
-        return Result.data("orderList", orderService.searchOrder(keyWord));
+    public Result searchOrder(@RequestParam("keyWord") String keyWord, HttpServletRequest request) {
+        String sessionId = SessUtils.getSessionId(request);
+        return Result.data("orderList", orderService.searchOrder(keyWord, sessionId));
     }
 
     /**

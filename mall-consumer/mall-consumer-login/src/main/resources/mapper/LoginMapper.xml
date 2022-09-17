@@ -3,15 +3,22 @@
 
 <mapper namespace="com.mall.dao.LoginDao">
     <insert id="register">
-        insert into consumer (account, password, nick_name, phone) values (#{account}, #{password}, #{nickName}, #{phone})
+        insert into consumer (account, password, nick_name, phone)
+        values (#{account}, #{password}, #{nickName}, #{phone})
     </insert>
 
-    <select id="login" resultType="java.lang.Integer">
-        select count(consumer_id) from consumer where account = #{account} and password = #{password} limit 1
+    <select id="login" resultType="com.mall.pojo.Consumer">
+        select *
+        from consumer
+        where account = #{account}
+          and password = #{password}
+        limit 1
     </select>
 
     <select id="checkAccount" resultType="java.lang.Integer">
-        select count(consumer_id) from consumer where account = #{account}
+        select count(consumer_id)
+        from consumer
+        where account = #{account}
     </select>
 
 </mapper>

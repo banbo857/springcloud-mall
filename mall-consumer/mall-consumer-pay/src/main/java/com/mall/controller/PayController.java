@@ -20,8 +20,9 @@ public class PayController {
     private PayService payService;
 
     public Result defaultFallback() {
-        return Result.error("系统繁忙，请稍后再试");
+        return Result.error("hystrix->支付服务异常");
     }
+
 
     @RequestMapping("/pay")
     @ResponseBody
